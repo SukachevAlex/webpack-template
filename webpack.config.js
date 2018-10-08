@@ -37,6 +37,7 @@ module.exports = {
                                     browsers: ['ie >= 8', 'last 4 version']
                                 })
                             ],
+                            minimize: true,
                             sourceMap: true,
                         },
                     },
@@ -44,11 +45,32 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|svg)$/,
                 use: [{
                     loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'img'
+                    }
                 }]
-            }
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/,
+                exclude: [/src\/fonts/],
+                use: [{
+                    loader: 'image-webpack-loader',
+                    options: {
+                        outputPath: 'img',
+                        optipng: {
+                            enabled: false
+                        },
+                        pngquant: {
+                            quality: '65-90',
+                            speed: 4
+                        },
+                    },
+                }]
+            },
         ]
     },
     plugins: [
